@@ -1,0 +1,9 @@
+GET http://localhost:80/recipes
+###
+POST  http://localhost:80/recipes
+Content-Type: application/json
+
+{
+  "name": "сaп",
+  "tags": "фыdв"
+}
