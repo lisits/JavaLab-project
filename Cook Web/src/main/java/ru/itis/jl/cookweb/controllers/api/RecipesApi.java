@@ -22,7 +22,7 @@ import ru.itis.jl.cookweb.dto.RecipePage;
 
 public interface RecipesApi {
 
-    @Operation(summary = "Получение списка рецептов")
+    @Operation(summary = "Получение списка рецептов.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Страница с существующими рецептами",
                     content = {
