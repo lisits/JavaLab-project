@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="8b665d30-a920-40ce-92bc-95fe6cef0076" name="cook Mapping">
+      <data-sources db="84908821-9232-4ed7-b8b9-b900cdb1ce24" ddl="347f83ee-e670-4a79-ae4c-217a0c1c30f9" />
+      <scope>
+        <node kind="database" qname="cook" />
+      </scope>
+    </mapping>
+  </component>
+  <component name="SqlDataSourceStorage">
+    <option name="dataSources">
+      <list>
+        <State>
+          <option name="id" value="347f83ee-e670-4a79-ae4c-217a0c1c30f9" />
+          <option name="name" value="cook (DDL)" />
+          <option name="languageId" value="PostgreSQL" />
+          <option name="parent" value="84908821-9232-4ed7-b8b9-b900cdb1ce24" />
+          <option name="urls">
+            <array>
+              <option value="file://$PROJECT_DIR$/Cook Web" />
+            </array>
+          </option>
+        </State>
+      </list>
+    </option>
+  </component>
+</project>
