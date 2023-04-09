@@ -66,5 +66,7 @@ public interface RecipesApi {
     })
     @GetMapping(value = "/recipes", params = {"id"})
     ResponseEntity<RecipeDto> getRecipe(@RequestParam("id") Long id);
+
+
 }
 

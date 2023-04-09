@@ -9,6 +9,8 @@ import ru.itis.jl.cookweb.dto.NewUserDto;
 import ru.itis.jl.cookweb.models.User;
 import ru.itis.jl.cookweb.services.UserService;
 
+import java.security.Principal;
+
 @RestController
 @RequiredArgsConstructor
 public class UsersController implements UsersApi {
@@ -20,4 +22,12 @@ public class UsersController implements UsersApi {
         userService.doRegistration(newUserDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @Override
+    public ResponseEntity<?> deleteUser(Principal principal) {
+        System.out.println(principal.getName());
+        userService.deleteUser(principal.getName());
+        return ResponseEntity.accepted().build();
+    }
+
 }
