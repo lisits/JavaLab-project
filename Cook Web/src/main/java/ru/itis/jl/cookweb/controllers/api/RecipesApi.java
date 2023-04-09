@@ -30,7 +30,8 @@ public interface RecipesApi {
                     })
     })
     @GetMapping("/recipes")
-    ResponseEntity<RecipePage> getAllRecipes(@RequestParam("page") int page);
+    ResponseEntity<RecipePage> getAllRecipes(@RequestParam("page") int page,
+                                             @RequestParam(value = "sort", defaultValue = "asc") String sort);
 
 
     @Operation(summary = "Добавление рецепта")

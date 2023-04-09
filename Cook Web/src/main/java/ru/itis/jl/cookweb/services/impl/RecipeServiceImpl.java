@@ -24,9 +24,19 @@ public class RecipeServiceImpl implements RecipeService {
     private int defaultPageSize;
 
     @Override
-    public RecipePage getAllRecipes(int page){
+    public RecipePage getAllRecipesSortedDesc(int page) {
         PageRequest pageRequest = PageRequest.of(page, defaultPageSize);
-        Page<Recipe> recipesPage = recipeRepository.findAll(pageRequest);
+        Page<Recipe> recipesPage = recipeRepository.findAllByOrderByAddedInDesc(pageRequest);
+        return RecipePage.builder()
+                .recipes(RecipeDto.from(recipesPage.getContent()))
+                .totalPagesCount(recipesPage.getTotalPages())
+                .build();
+    }
+
+    @Override
+    public RecipePage getAllRecipesSortedAsc(int page) {
+        PageRequest pageRequest = PageRequest.of(page, defaultPageSize);
+        Page<Recipe> recipesPage = recipeRepository.findAllByOrderByAddedInAsc(pageRequest);
         return RecipePage.builder()
                 .recipes(RecipeDto.from(recipesPage.getContent()))
                 .totalPagesCount(recipesPage.getTotalPages())

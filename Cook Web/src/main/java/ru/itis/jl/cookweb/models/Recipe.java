@@ -25,7 +25,7 @@ public class Recipe {
     @Column(columnDefinition = "boolean default false")
     private Boolean favourite;
 
-    @Temporal(value=TemporalType.DATE)
+    @Temporal(value=TemporalType.TIMESTAMP)
     private Date addedIn;
 
 

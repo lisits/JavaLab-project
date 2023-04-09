@@ -29,7 +29,7 @@ public class JwtUtilAuth0Impl implements JwtUtil {
     @Value("${jwt.secret}")
     private String secret;
 
-    private static final long ACCESS_TOKEN_EXPIRES_TIME = 60000;
+    private static final long ACCESS_TOKEN_EXPIRES_TIME = 600000;
 
     private static final long REFRESH_TOKEN_EXPIRES_TIME = 180000;
 

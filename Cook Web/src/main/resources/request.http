@@ -9,10 +9,10 @@ email=danilinf131@gmail.com&password=1
 ###
 
 POST http://localhost:80/recipes
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW5pbGluZjEzMUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2F1dGgvdG9rZW4iLCJleHAiOjE2ODEwNDAwNTN9.yR0XBh-Pcy8Lr9eh3cN4ICGEUX4_jgkKg650fpkivFk
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW5pbGluZjEzMUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2F1dGgvdG9rZW4iLCJleHAiOjE2ODEwNjk3MzF9.x4LsEBHTthvG95DJ5_JD3is2WG1zzm9WgcCGUuu8UUM
 Content-Type: application/json
 
 {
-  "name": "te",
-  "tags": "asd"
+  "name": "6",
+  "tags": "sort test"
 }

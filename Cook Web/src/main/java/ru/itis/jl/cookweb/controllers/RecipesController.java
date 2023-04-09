@@ -18,9 +18,19 @@ public class RecipesController implements RecipesApi {
 
     private final RecipeService recipeService;
 
+//    @Override
+//    public ResponseEntity<RecipePage> getAllRecipes(int page) {
+//        return ResponseEntity.status(HttpStatus.OK).body(recipeService.getAllRecipes(page));
+//    }
+
     @Override
-    public ResponseEntity<RecipePage> getAllRecipes(int page) {
-        return ResponseEntity.status(HttpStatus.OK).body(recipeService.getAllRecipes(page));
+    public ResponseEntity<RecipePage> getAllRecipes(int page,String sort) {
+        if (sort.equals("desc")) {
+            return ResponseEntity.status(HttpStatus.OK).body(recipeService.getAllRecipesSortedDesc(page));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.OK).body(recipeService.getAllRecipesSortedAsc(page));
+        }
     }
 
 

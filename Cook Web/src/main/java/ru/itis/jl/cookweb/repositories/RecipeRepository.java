@@ -7,4 +7,6 @@ import ru.itis.jl.cookweb.models.Recipe;
 
 public interface RecipeRepository extends JpaRepository<Recipe,Long> {
     Page<Recipe> findAllByTagContaining(String tag, Pageable pageable);
+    Page<Recipe> findAllByOrderByAddedInAsc(Pageable pageable);
+    Page<Recipe> findAllByOrderByAddedInDesc(Pageable pageable);
 }

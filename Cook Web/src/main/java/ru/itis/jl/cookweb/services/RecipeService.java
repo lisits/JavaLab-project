@@ -7,7 +7,8 @@ import ru.itis.jl.cookweb.dto.RecipePage;
 
 @Service
 public interface RecipeService {
-    RecipePage getAllRecipes(int page);
+    RecipePage getAllRecipesSortedDesc(int page);
+    RecipePage getAllRecipesSortedAsc(int page);
     RecipePage getRecipesByTag(String param, int page);
     RecipeDto addRecipe(NewRecipetDto newRecipetDto);
     RecipeDto getRecipe(Long id);
