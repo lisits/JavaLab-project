@@ -25,6 +25,11 @@ public class Recipe {
     @Column(columnDefinition = "boolean default false")
     private Boolean favourite;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User author;
+
     @Temporal(value=TemporalType.TIMESTAMP)
     private Date addedIn;
 

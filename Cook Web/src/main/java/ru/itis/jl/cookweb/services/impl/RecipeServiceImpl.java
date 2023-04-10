@@ -1,15 +1,20 @@
 package ru.itis.jl.cookweb.services.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.itis.jl.cookweb.dto.NewRecipetDto;
+import ru.itis.jl.cookweb.dto.NewRecipeDto;
 import ru.itis.jl.cookweb.dto.RecipeDto;
 import ru.itis.jl.cookweb.dto.RecipePage;
 import ru.itis.jl.cookweb.models.Recipe;
+import ru.itis.jl.cookweb.models.User;
 import ru.itis.jl.cookweb.repositories.RecipeRepository;
+import ru.itis.jl.cookweb.repositories.UserRepository;
 import ru.itis.jl.cookweb.services.RecipeService;
 
 import static ru.itis.jl.cookweb.dto.RecipeDto.from;
@@ -19,6 +24,9 @@ import static ru.itis.jl.cookweb.dto.RecipeDto.from;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final UserRepository userRepository;
+    private static final Logger logger = LogManager.getLogger(RecipeServiceImpl.class);
+
 
     @Value("${default.page-size}")
     private int defaultPageSize;
@@ -54,15 +62,22 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public RecipeDto addRecipe(NewRecipetDto newRecipetDto) {
+    public RecipeDto addRecipe(String email, NewRecipeDto newRecipeDto) {
+        User author  = loadUserByUsername(email);
         Recipe recipe = Recipe.builder()
-                .name(newRecipetDto.getName())
-                .addedIn(newRecipetDto.setAddedIn())
-                .tag(newRecipetDto.getTags())
-                .favourite(newRecipetDto.setFavourite())
+                .name(newRecipeDto.getName())
+                .addedIn(newRecipeDto.setAddedIn())
+                .tag(newRecipeDto.getTags())
+                .favourite(newRecipeDto.setFavourite())
+                .author(author)
                 .build();
         recipeRepository.save(recipe);
         return RecipeDto.from(recipe);
+    }
+
+    private User loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException("User <" + email + "> not found"));
     }
 
     @Override

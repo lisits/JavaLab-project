@@ -25,7 +25,6 @@ public class UsersController implements UsersApi {
 
     @Override
     public ResponseEntity<?> deleteUser(Principal principal) {
-        System.out.println(principal.getName());
         userService.deleteUser(principal.getName());
         return ResponseEntity.accepted().build();
     }

@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class NewRecipetDto {
+public class NewRecipeDto {
     private String name;
     private String tags;
 
@@ -20,6 +20,7 @@ public class NewRecipetDto {
     }
 
     private Date addedIn;
+
     private Boolean favourite;
 
     public Boolean setFavourite() {

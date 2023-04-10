@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.itis.jl.cookweb.dto.NewRecipetDto;
+import ru.itis.jl.cookweb.dto.NewRecipeDto;
 import ru.itis.jl.cookweb.dto.RecipeDto;
 import ru.itis.jl.cookweb.dto.RecipePage;
+
+import java.security.Principal;
 
 @Tags(value = {
         @Tag(name = "Recipes")
@@ -43,8 +45,8 @@ public interface RecipesApi {
                     }
             )
     })
-    @PostMapping("/recipes")
-    ResponseEntity<RecipeDto> addRecipe(@RequestBody NewRecipetDto newRecipetDto);
+    @PostMapping("/recipe")
+    ResponseEntity<RecipeDto> addRecipe(@RequestBody Principal principal, @RequestBody NewRecipeDto newRecipeDto);
 
 
     @Operation(summary = "Получение списка рецептов по тегу")
