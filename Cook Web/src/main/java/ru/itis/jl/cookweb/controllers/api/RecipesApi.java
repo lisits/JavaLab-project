@@ -72,7 +72,7 @@ public interface RecipesApi {
 
 
     @GetMapping("/recipes/my")
-    ResponseEntity<RecipePage>  getRecipesByAuthor(Principal principal, @RequestParam("page") int page);
+    ResponseEntity<RecipePage>  getRecipesByAuthor(Principal principal, @RequestParam(value = "page", defaultValue = "0") int page);
 
 }
 
