@@ -46,7 +46,7 @@ public interface RecipesApi {
             )
     })
     @PostMapping("/recipe")
-    ResponseEntity<RecipeDto> addRecipe(@RequestBody Principal principal, @RequestBody NewRecipeDto newRecipeDto);
+    ResponseEntity<RecipeDto> addRecipe(Principal principal, @RequestBody NewRecipeDto newRecipeDto);
 
 
     @Operation(summary = "Получение списка рецептов по тегу")
@@ -70,6 +70,9 @@ public interface RecipesApi {
     @GetMapping(value = "/recipes", params = {"id"})
     ResponseEntity<RecipeDto> getRecipe(@RequestParam("id") Long id);
 
+
+    @GetMapping("/recipes/my")
+    ResponseEntity<RecipePage>  getRecipesByAuthor(Principal principal, @RequestParam("page") int page);
 
 }
 

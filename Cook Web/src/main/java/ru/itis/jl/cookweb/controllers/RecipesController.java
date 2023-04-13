@@ -54,4 +54,9 @@ public class RecipesController implements RecipesApi {
     public ResponseEntity<RecipeDto> getRecipe(Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(recipeService.getRecipe(id));
     }
+
+    @Override
+    public ResponseEntity<RecipePage> getRecipesByAuthor(Principal principal, int page) {
+        return ResponseEntity.status(HttpStatus.OK).body(recipeService.getRecipesByAuthor(principal.getName(), page));
+    }
 }

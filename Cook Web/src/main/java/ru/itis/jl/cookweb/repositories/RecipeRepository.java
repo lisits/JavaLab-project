@@ -9,4 +9,5 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
     Page<Recipe> findAllByTagContaining(String tag, Pageable pageable);
     Page<Recipe> findAllByOrderByAddedInAsc(Pageable pageable);
     Page<Recipe> findAllByOrderByAddedInDesc(Pageable pageable);
+    Page<Recipe> findAllByAuthor_Email(String email, Pageable pageable);
 }

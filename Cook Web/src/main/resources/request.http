@@ -1,6 +1,9 @@
 GET http://localhost:80/recipes?page=0
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW5pbGluZjEzMUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2F1dGgvdG9rZW4iLCJleHAiOjE2ODExNDI5NDh9.vTGOLXENt4Zmf5P2J2FUCDVSkjUrJFt36h1OocKgrY0
 ###
+GET http://localhost:80/recipes/my?page=0
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW5pbGluZjEzMUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2F1dGgvdG9rZW4iLCJleHAiOjE2ODEzNzk2MTZ9.907vhB5dvzwzbEJOOBXLGuKpZ-vUDowqIQ-AN7Pm9CI
+###
 POST http://localhost:80/auth/token
 Content-Type: application/x-www-form-urlencoded
 
@@ -9,7 +12,7 @@ email=danilinf131@gmail.com&password=1
 ###
 
 POST http://localhost:80/recipe
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW5pbGluZjEzMUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2F1dGgvdG9rZW4iLCJleHAiOjE2ODExNTE2NTJ9.d1yheZEg9ZJuQKzZG9Dv5-fWEU-iB9CIV6m2GhV7yfU
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW5pbGluZjEzMUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2F1dGgvdG9rZW4iLCJleHAiOjE2ODEzNzg5ODd9.aDk8Jc3polsJowdIFDFJrW79mVL2A65JfOp3U_tyNyQ
 Content-Type: application/json
 
 {

@@ -12,5 +12,6 @@ public interface RecipeService {
     RecipePage getRecipesByTag(String param, int page);
     RecipeDto addRecipe(String email, NewRecipeDto newRecipeDto);
     RecipeDto getRecipe(Long id);
+    RecipePage getRecipesByAuthor(String email, int page);
 }
 

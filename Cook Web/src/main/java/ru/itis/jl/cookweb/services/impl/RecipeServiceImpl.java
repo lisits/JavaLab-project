@@ -85,4 +85,14 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe recipe = recipeRepository.getReferenceById(id);
         return RecipeDto.from(recipe);
     }
+
+    @Override
+    public RecipePage getRecipesByAuthor(String email, int page) {
+        PageRequest pageRequest = PageRequest.of(page, defaultPageSize);
+        Page<Recipe> recipePage = recipeRepository.findAllByAuthor_Email(email, pageRequest);
+        return RecipePage.builder()
+                .recipes(RecipeDto.from(recipePage.getContent()))
+                .totalPagesCount(recipePage.getTotalPages())
+                .build();
+    }
 }
