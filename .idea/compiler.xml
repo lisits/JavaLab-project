@@ -10,9 +10,6 @@
         <module name="med-crm" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="med-crm" target="19" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

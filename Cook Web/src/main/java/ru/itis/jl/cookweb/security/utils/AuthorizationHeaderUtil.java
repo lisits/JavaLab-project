@@ -1,6 +1,6 @@
 package ru.itis.jl.cookweb.security.utils;
 
-import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletRequest;
 
 public interface AuthorizationHeaderUtil {
 

@@ -17,6 +17,8 @@ import ru.itis.jl.cookweb.repositories.RecipeRepository;
 import ru.itis.jl.cookweb.repositories.UserRepository;
 import ru.itis.jl.cookweb.services.RecipeService;
 
+import java.util.Optional;
+
 import static ru.itis.jl.cookweb.dto.RecipeDto.from;
 
 @Service
@@ -82,8 +84,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public RecipeDto getRecipe(Long id) {
-        Recipe recipe = recipeRepository.getReferenceById(id);
-        return RecipeDto.from(recipe);
+        Optional<Recipe> recipe = recipeRepository.findById(id);
+        return RecipeDto.from(recipe.orElseThrow());
     }
 
     @Override

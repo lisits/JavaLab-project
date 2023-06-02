@@ -13,7 +13,7 @@ import ru.itis.jl.cookweb.security.details.UserDetailsImpl;
 import ru.itis.jl.cookweb.security.utils.AuthorizationHeaderUtil;
 import ru.itis.jl.cookweb.security.utils.JwtUtil;
 
-import javax.servlet.http.HttpServletResponse;
+//import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
@@ -57,7 +57,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void unsuccessfulAuthentication(jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response, AuthenticationException failed) throws IOException, jakarta.servlet.ServletException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        response.sendError(jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED);
     }
 
     @Override

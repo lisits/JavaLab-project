@@ -8,10 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.itis.jl.cookweb.dto.NewRecipeDto;
 import ru.itis.jl.cookweb.dto.RecipeDto;
 import ru.itis.jl.cookweb.dto.RecipePage;
@@ -67,8 +64,8 @@ public interface RecipesApi {
                             @Content(mediaType = "application/json", schema = @Schema(implementation = RecipeDto.class))
                     })
     })
-    @GetMapping(value = "/recipes", params = {"id"})
-    ResponseEntity<RecipeDto> getRecipe(@RequestParam("id") Long id);
+    @GetMapping(value = "/recipes/{id}")
+    ResponseEntity<RecipeDto> getRecipe(@PathVariable("id") Long id);
 
 
     @GetMapping("/recipes/my")

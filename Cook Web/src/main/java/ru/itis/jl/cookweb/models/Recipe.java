@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -25,6 +27,12 @@ public class Recipe {
     @Column(columnDefinition = "boolean default false")
     private Boolean favourite;
 
+    private String description;
+    private String time;
+
+    @Column
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
