@@ -15,6 +15,7 @@
     <description>Med CRM</description>
     <properties>
         <java.version>19</java.version>
+        <maven.plugin.validation>VERBOSE</maven.plugin.validation>
     </properties>
     <dependencies>
         <dependency>
