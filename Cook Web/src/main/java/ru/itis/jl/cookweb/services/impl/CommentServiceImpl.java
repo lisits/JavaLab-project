@@ -4,14 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.itis.jl.cookweb.dto.CommentDto;
 import ru.itis.jl.cookweb.dto.NewCommentDto;
-import ru.itis.jl.cookweb.models.Comment;
 import ru.itis.jl.cookweb.models.Recipe;
 import ru.itis.jl.cookweb.models.User;
 import ru.itis.jl.cookweb.repositories.CommentRepository;
-import ru.itis.jl.cookweb.repositories.RecipeRepository;
 import ru.itis.jl.cookweb.repositories.UserRepository;
 import ru.itis.jl.cookweb.services.CommentService;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -40,6 +39,11 @@ public class CommentServiceImpl implements CommentService {
         if (commentRepository.findById(commentId).isPresent()) {
             commentRepository.deleteById(commentId);
         }
+    }
+
+    @Override
+    public List<CommentDto> getAllCommentsByUser(Principal principal) {
+        return CommentDto.from(commentRepository.findAllByAuthor(userRepository.findByEmail(principal.getName()).orElseThrow()).orElseThrow());
     }
 
 }

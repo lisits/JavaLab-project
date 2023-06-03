@@ -14,8 +14,12 @@ import ru.itis.jl.cookweb.dto.ExceptionDto;
 import ru.itis.jl.cookweb.dto.NewRecipeDto;
 import ru.itis.jl.cookweb.dto.RecipeDto;
 import ru.itis.jl.cookweb.dto.RecipePage;
+import ru.itis.jl.cookweb.exceptions.NotFoundException;
+import ru.itis.jl.cookweb.models.Ingredient;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.Set;
 
 @Tags(value = {
         @Tag(name = "Recipes")
@@ -23,7 +27,7 @@ import java.security.Principal;
 
 public interface RecipesApi {
 
-    @Operation(summary = "Получение списка рецептов.")
+    @Operation(summary = "Получение списка рецептов")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Страница с существующими рецептами",
                     content = {
@@ -48,8 +52,6 @@ public interface RecipesApi {
     @PostMapping("/recipe")
     ResponseEntity<RecipeDto> addRecipe(Principal principal, @RequestBody NewRecipeDto newRecipeDto);
 
-
-
     @Operation(summary = "Получение страницы рецептов по тегу")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Страница с существующими рецептами, содержащие тэг",
@@ -57,10 +59,9 @@ public interface RecipesApi {
                             @Content(mediaType = "application/json", schema = @Schema(implementation = RecipePage.class))
                     })
     })
-    @GetMapping(value = "/recipes", params = {"tag","page"})
-    ResponseEntity<RecipePage> getRecipesByTag(@RequestParam("tag") @Parameter(description = "Рецепты с тегом") String tagParam,
+    @GetMapping(value = "/recipes", params = {"tags","page"})
+    ResponseEntity<RecipePage> getRecipesByTag(@RequestParam("tags") @Parameter(description = "Рецепты с тегом") Set<ru.itis.jl.cookweb.models.Tag> tags,
                                                @RequestParam("page")  @Parameter(description = "Номер страницы") int page);
-
 
     @Operation(summary = "Получение страницы рецпета по id")
     @ApiResponses(value = {
@@ -71,7 +72,7 @@ public interface RecipesApi {
             @ApiResponse(responseCode = "404", description = "Рецепт не найден",
                     content = {
                             @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionDto.class))
+                                    schema = @Schema(implementation = NotFoundException.class))
                     }
             )
 
@@ -89,7 +90,7 @@ public interface RecipesApi {
             @ApiResponse(responseCode = "404", description = "У вас нет рецептов",
                     content = {
                             @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionDto.class))
+                                    schema = @Schema(implementation = NotFoundException.class))
                     }
             )
 
@@ -97,5 +98,53 @@ public interface RecipesApi {
     @GetMapping("/recipes/my")
     ResponseEntity<RecipePage>  getRecipesByAuthor(Principal principal, @RequestParam(value = "page", defaultValue = "0") int page);
 
+    @Operation(summary = "Добавление рецепта в избранное")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Рецепт успешно добавлен",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = RecipePage.class))
+                    }),
+            @ApiResponse(responseCode = "404", description = "У вас нет рецептов",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = NotFoundException.class))
+                    }
+            )
+
+    })
+    @PostMapping("/addToFavorite")
+    ResponseEntity<RecipePage> addRecipeToFavourite(Principal principal, RecipeDto recipeDto, int page);
+
+    @Operation(summary = "Поиск рецептов по ингредиентам")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Рецепты найдены!",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = RecipePage.class))
+                    }),
+            @ApiResponse(responseCode = "404", description = "Рецепты не найдены :(",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = NotFoundException.class))
+                    }
+            )
+    })
+    @GetMapping("/recipesByIngredients")
+    ResponseEntity<RecipePage> getRecipesByIngredients(@RequestParam List<Ingredient> ingredients, int page);
+
+    @Operation(summary = "Добавление ингредиента в рецепт")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ингредиент успешно добавлен",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = RecipeDto.class))
+                    }),
+            @ApiResponse(responseCode = "404", description = "Рецепт для добавления не найден",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = NotFoundException.class))
+                    }
+            )
+    })
+    @PostMapping("/addIngredientToRecipe")
+    ResponseEntity<RecipeDto> addIngredientToRecipe(RecipeDto recipeDto, Ingredient ingredient);
 }
 

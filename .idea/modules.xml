@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/JavaLab-project.iml" filepath="$PROJECT_DIR$/.idea/JavaLab-project.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Cook Web/med-crm.iml" filepath="$PROJECT_DIR$/Cook Web/med-crm.iml" />
-    </modules>
-  </component>
-</project>

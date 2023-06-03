@@ -13,7 +13,6 @@ public class RefreshTokenAuthentication implements Authentication {
         this.refreshToken = refreshToken;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

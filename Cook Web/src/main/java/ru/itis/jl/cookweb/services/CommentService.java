@@ -6,6 +6,7 @@ import ru.itis.jl.cookweb.dto.CommentDto;
 import ru.itis.jl.cookweb.dto.NewCommentDto;
 import ru.itis.jl.cookweb.models.Recipe;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -14,4 +15,6 @@ public interface CommentService {
     CommentDto addComment(String email, NewCommentDto newCommentDto);
 
     void deleteComment(String email, Long commentId);
+
+    List<CommentDto> getAllCommentsByUser(Principal principal);
 }

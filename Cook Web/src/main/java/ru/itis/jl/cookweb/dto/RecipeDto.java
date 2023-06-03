@@ -4,29 +4,30 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.itis.jl.cookweb.models.Comment;
-import ru.itis.jl.cookweb.models.Recipe;
-import ru.itis.jl.cookweb.models.User;
+import ru.itis.jl.cookweb.models.*;
 
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
 @Data
-
 public class RecipeDto {
     private Long id;
     private String name;
-    private String tags;
+    private Set<Tag> tags;
     private Date addedIn;
-    private Boolean favourite;
+    private Long favourite;
     private String description;
     private String time;
+    private Long authorId;
     private List<Long> comments;
+    private Set<User> favoritedByUsers;
+    private List<Ingredient> ingredients;
 
     public static RecipeDto from(Recipe recipe) {
         List<Long> commentIds = recipe.getComments()
@@ -39,8 +40,11 @@ public class RecipeDto {
                 .name(recipe.getName())
                 .description(recipe.getDescription())
                 .time(recipe.getTime())
-                .tags(recipe.getTag())
+                .tags(recipe.getTags())
                 .favourite(recipe.getFavourite())
+                .authorId(recipe.getAuthorId())
+                .favoritedByUsers(recipe.getFavoritedByUsers())
+                .ingredients(recipe.getIngredients())
                 .comments(commentIds)
                 .build();
     }

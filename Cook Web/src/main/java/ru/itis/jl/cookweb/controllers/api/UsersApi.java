@@ -31,7 +31,6 @@ public interface UsersApi {
     @PostMapping("/signup")
     ResponseEntity<User> registerUser(@RequestBody NewUserDto newUserDto);
 
-
     @Operation(summary = "Удалить аккаунт")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ваш аккаунт успешно удален"),

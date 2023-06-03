@@ -11,13 +11,20 @@ import org.springframework.stereotype.Service;
 import ru.itis.jl.cookweb.dto.NewRecipeDto;
 import ru.itis.jl.cookweb.dto.RecipeDto;
 import ru.itis.jl.cookweb.dto.RecipePage;
+import ru.itis.jl.cookweb.dto.converters.RecipeConverter;
+import ru.itis.jl.cookweb.models.Ingredient;
 import ru.itis.jl.cookweb.models.Recipe;
+import ru.itis.jl.cookweb.models.Tag;
 import ru.itis.jl.cookweb.models.User;
+import ru.itis.jl.cookweb.repositories.CommentRepository;
 import ru.itis.jl.cookweb.repositories.RecipeRepository;
 import ru.itis.jl.cookweb.repositories.UserRepository;
 import ru.itis.jl.cookweb.services.RecipeService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static ru.itis.jl.cookweb.dto.RecipeDto.from;
 
@@ -26,9 +33,12 @@ import static ru.itis.jl.cookweb.dto.RecipeDto.from;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
-    private final UserRepository userRepository;
-    private static final Logger logger = LogManager.getLogger(RecipeServiceImpl.class);
 
+    private final UserRepository userRepository;
+
+    private final CommentRepository commentRepository;
+
+    private static final Logger logger = LogManager.getLogger(RecipeServiceImpl.class);
 
     @Value("${default.page-size}")
     private int defaultPageSize;
@@ -54,9 +64,9 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public RecipePage getRecipesByTag(String tagParam, int page) {
+    public RecipePage getRecipesByTag(Set<Tag> tags, int page) {
         PageRequest pageRequest = PageRequest.of(page, defaultPageSize);
-        Page<Recipe> recipePageWithTag = recipeRepository.findAllByTagContaining(tagParam, pageRequest);
+        Page<Recipe> recipePageWithTag = recipeRepository.findAllByTagsContaining(tags, pageRequest);
         return RecipePage.builder()
                 .recipes(RecipeDto.from(recipePageWithTag.getContent()))
                 .totalPagesCount(recipePageWithTag.getTotalPages())
@@ -69,17 +79,16 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe recipe = Recipe.builder()
                 .name(newRecipeDto.getName())
                 .addedIn(newRecipeDto.setAddedIn())
-                .tag(newRecipeDto.getTags())
-                .favourite(newRecipeDto.setFavourite())
-                .author(author)
+                .tags(newRecipeDto.getTags())
+                .favourite(0L)
+                .authorId(author.getId())
                 .build();
         recipeRepository.save(recipe);
         return RecipeDto.from(recipe);
     }
 
     private User loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email).orElseThrow(
-                () -> new UsernameNotFoundException("User <" + email + "> not found"));
+        return findUser(email);
     }
 
     @Override
@@ -91,10 +100,64 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public RecipePage getRecipesByAuthor(String email, int page) {
         PageRequest pageRequest = PageRequest.of(page, defaultPageSize);
-        Page<Recipe> recipePage = recipeRepository.findAllByAuthor_Email(email, pageRequest);
+        Page<Recipe> recipePage = recipeRepository.findAllByAuthorId_Email(email, pageRequest);
         return RecipePage.builder()
                 .recipes(RecipeDto.from(recipePage.getContent()))
                 .totalPagesCount(recipePage.getTotalPages())
                 .build();
+    }
+    @Override
+    public RecipePage addRecipeToFavourite(String email, RecipeDto recipeDto, int page) {
+
+        User user = findUser(email);
+        Set<Recipe> favRecipes = user.getFavoriteRecipes();
+        Recipe recipe = Recipe.builder()
+                .id(recipeDto.getId())
+                .name(recipeDto.getName())
+                .tags(recipeDto.getTags())
+                .description(recipeDto.getDescription())
+                .favourite(recipeDto.getFavourite())
+                .time(recipeDto.getTime())
+                .favoritedByUsers(recipeDto.getFavoritedByUsers())
+                .comments(commentRepository.findAllById(recipeDto.getComments()).orElseThrow())
+                .addedIn(recipeDto.getAddedIn())
+                .ingredients(recipeDto.getIngredients())
+                .authorId(recipeDto.getAuthorId())
+                .build();
+        favRecipes.add(recipe);
+        userRepository.save(user);
+        PageRequest pageRequest = PageRequest.of(page, defaultPageSize);
+        Page<Recipe> recipePage = recipeRepository.findAllByAuthorId_Email(email, pageRequest);
+        return RecipePage.builder()
+                .recipes(RecipeDto.from(recipePage.getContent()))
+                .totalPagesCount(recipePage.getTotalPages())
+                .build();
+    }
+
+    @Override
+    public RecipePage getRecipesByIngredients(List<Ingredient> ingredients, int page) {
+        PageRequest pageRequest = PageRequest.of(page, defaultPageSize);
+        List<Long> ids = new ArrayList<>();
+        ingredients.forEach(ingredient -> ids.add(ingredient.getId()));
+        int ingredientsCount = ids.size();
+        Page<Recipe> recipePage = recipeRepository.findAllByIngredients(ids, pageRequest);
+        return RecipePage.builder()
+                .recipes(RecipeDto.from(recipePage.getContent()))
+                .totalPagesCount(recipePage.getTotalPages())
+                .build();
+    }
+
+    @Override
+    public RecipeDto addIngredientToRecipe(RecipeDto recipeDto, Ingredient ingredient) {
+        Recipe recipe = recipeRepository.getReferenceById(recipeDto.getId());
+        List<Ingredient> ingredients = recipe.getIngredients();
+        ingredients.add(ingredient);
+        recipe.setIngredients(ingredients);
+        return from(recipe);
+    }
+
+    private User findUser(String email) {
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException("User <" + email + "> not found"));
     }
 }

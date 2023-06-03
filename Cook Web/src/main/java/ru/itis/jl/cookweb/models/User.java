@@ -6,8 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -30,9 +31,11 @@ public class User {
     private Long id;
 
     private String email;
+
     private String hashPassword;
 
     private String firstName;
+
     private String lastName;
 
     @Enumerated(value = EnumType.STRING)
@@ -43,6 +46,16 @@ public class User {
 
     @Enumerated(value = EnumType.STRING)
     private State state;
+
+    @OneToMany()
+    @JoinColumn(name = "user_id")
+    private List<Recipe> myRecipes;
+
+    @ManyToMany
+    @JoinTable(name = "user_favorite_recipe",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipe_id"))
+    private Set<Recipe> favoriteRecipes = new HashSet<>();
 
     public boolean isConfirmed() {
         return this.state.equals(State.CONFIRMED);

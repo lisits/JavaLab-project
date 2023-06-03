@@ -21,6 +21,7 @@ import ru.itis.jl.cookweb.services.UserService;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -41,12 +42,16 @@ public class UserServiceImpl implements UserService {
                 .build());
     }
 
-
     @Override
     public void deleteUser(String email) {
         User user = loadUserByUsername(email);
         user.setState(User.State.DELETED);
         userRepository.save(user);
+    }
+
+    @Override
+    public User getProfile(String email) {
+        return loadUserByUsername(email);
     }
 
     private User loadUserByUsername(String email) throws UsernameNotFoundException {

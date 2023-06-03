@@ -22,5 +22,4 @@ public class RequestUtilImpl  implements AuthorizationHeaderUtil {
         return authorizationHeader.substring(BEARER.length());
     }
 
-
 }

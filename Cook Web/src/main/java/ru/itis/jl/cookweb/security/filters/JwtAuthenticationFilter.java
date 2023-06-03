@@ -40,8 +40,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.authorizationHeaderUtil = authorizationHeaderUtil;
     }
 
-
-
     @Override
     protected void successfulAuthentication(jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response, jakarta.servlet.FilterChain chain, Authentication authResult) throws IOException, jakarta.servlet.ServletException {
         response.setContentType("application/json");
