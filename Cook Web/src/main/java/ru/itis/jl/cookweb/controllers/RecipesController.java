@@ -22,11 +22,6 @@ public class RecipesController implements RecipesApi {
     private static final Logger logger = LogManager.getLogger(RecipeServiceImpl.class);
     private final RecipeService recipeService;
 
-//    @Override
-//    public ResponseEntity<RecipePage> getAllRecipes(int page) {
-//        return ResponseEntity.status(HttpStatus.OK).body(recipeService.getAllRecipes(page));
-//    }
-
     @Override
     public ResponseEntity<RecipePage> getAllRecipes(int page,String sort) {
         if (sort.equals("desc")) {
