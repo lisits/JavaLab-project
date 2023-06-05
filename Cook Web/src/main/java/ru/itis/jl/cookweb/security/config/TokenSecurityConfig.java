@@ -36,6 +36,8 @@ public class TokenSecurityConfig {
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         httpSecurity.authorizeRequests()
+                .requestMatchers("auth/token").permitAll()
+                .requestMatchers("auth/token/revoke").authenticated()
                 .requestMatchers(HttpMethod.PUT, "/user").permitAll()
                 .requestMatchers(HttpMethod.DELETE, "/user").hasRole("ADMIN")
                 .requestMatchers("/profile/**").authenticated()
