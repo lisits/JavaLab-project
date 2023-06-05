@@ -10,17 +10,23 @@ import org.springframework.stereotype.Component;
 import ru.itis.jl.cookweb.security.authentication.RefreshTokenAuthentication;
 import ru.itis.jl.cookweb.security.exceptions.RefreshTokenException;
 import ru.itis.jl.cookweb.security.utils.JwtUtil;
+import ru.itis.jl.cookweb.security.repositories.BlacklistRepository;
 
 @Component
 @AllArgsConstructor
 @Slf4j
 public class RefreshTokenAuthenticationProvider implements AuthenticationProvider {
-
+    private final BlacklistRepository blacklistRepository;
     private final JwtUtil jwtUtil;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String refreshTokenValue = (String) authentication.getCredentials();
+
+        if (blacklistRepository.exists(refreshTokenValue)) {
+            throw new RefreshTokenException("Token was revoked");
+        }
+
         try {
             return jwtUtil.buildAuthentication(refreshTokenValue);
         } catch (JWTVerificationException e) {

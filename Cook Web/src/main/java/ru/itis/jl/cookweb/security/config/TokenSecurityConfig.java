@@ -15,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.itis.jl.cookweb.security.filters.JwtAuthenticationFilter;
 import ru.itis.jl.cookweb.security.filters.JwtAuthorizationFilter;
+import ru.itis.jl.cookweb.security.filters.JwtRevokeFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -26,8 +27,10 @@ public class TokenSecurityConfig {
     private final AuthenticationProvider refreshTokenAuthenticationProvider;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, JwtAuthenticationFilter jwtAuthenticationFilter,
-                                                   JwtAuthorizationFilter jwtAuthorizationFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity,
+                                                   JwtAuthenticationFilter jwtAuthenticationFilter,
+                                                   JwtAuthorizationFilter jwtAuthorizationFilter,
+                                                   JwtRevokeFilter jwtRevokeFilter) throws Exception {
         httpSecurity.csrf().disable();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -37,12 +40,13 @@ public class TokenSecurityConfig {
 
         httpSecurity.addFilter(jwtAuthenticationFilter);
         httpSecurity.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(jwtRevokeFilter, JwtAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
 
     @Autowired
-    public void bindUserDetailsServiceAndPasswordEncoder (AuthenticationManagerBuilder builder) throws Exception {
+    public void bindUserDetailsServiceAndPasswordEncoder(AuthenticationManagerBuilder builder) throws Exception {
         builder.authenticationProvider(refreshTokenAuthenticationProvider);
         builder.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder);
     }
