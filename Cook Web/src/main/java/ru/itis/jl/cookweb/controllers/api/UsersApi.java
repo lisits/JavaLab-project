@@ -37,4 +37,12 @@ public interface UsersApi {
     })
     @DeleteMapping()
     ResponseEntity<?> deleteUser(Principal principal);
+
+    @Operation(summary = "Подтверждение аккаунта")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "Неверный токен верификации"),
+            @ApiResponse(responseCode = "401", description = "Пользователь не авторизован")
+    })
+    @RequestMapping(value="/token/verify/{acceptedToken}/{email}", method= {RequestMethod.GET, RequestMethod.POST})
+    public ResponseEntity<?> verifyToken(@PathVariable String acceptedToken, @PathVariable String email);
 }
