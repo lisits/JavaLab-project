@@ -1,7 +1,9 @@
 package ru.itis.jl.cookweb.security.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -41,7 +43,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    protected void successfulAuthentication(jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response, jakarta.servlet.FilterChain chain, Authentication authResult) throws IOException, jakarta.servlet.ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, jakarta.servlet.FilterChain chain, Authentication authResult) throws IOException, jakarta.servlet.ServletException {
         response.setContentType("application/json");
         GrantedAuthority currentAuthority = authResult.getAuthorities().stream().findFirst().orElseThrow();
         String email = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
@@ -50,16 +52,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Map<String,String> tokens = jwtUtil.generateTokens(email, currentAuthority.getAuthority(), issuer);
 
         objectMapper.writeValue(response.getOutputStream(), tokens);
-
     }
 
     @Override
-    protected void unsuccessfulAuthentication(jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response, AuthenticationException failed) throws IOException, jakarta.servlet.ServletException {
-        response.sendError(jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED);
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         if (authorizationHeaderUtil.hasAuthorizationToken(request)) {
             String refreshToken = authorizationHeaderUtil.getToken(request);
             RefreshTokenAuthentication authentication = new RefreshTokenAuthentication(refreshToken);

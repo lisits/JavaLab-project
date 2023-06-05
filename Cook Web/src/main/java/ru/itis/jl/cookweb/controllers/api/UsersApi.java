@@ -23,7 +23,7 @@ public interface UsersApi {
 
     @Operation(summary = "Регистрация нового пользователя")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Пользователь заргистрирован",
+            @ApiResponse(responseCode = "200", description = "Пользователь зарегистрирован",
                     content = {
                             @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
                     })

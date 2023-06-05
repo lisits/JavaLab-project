@@ -1,13 +1,29 @@
 GET http://localhost:80/recipes?page=1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW5pbGluZjEzMUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2F1dGgvdG9rZW4iLCJleHAiOjE2ODU3MzcyNTl9.iW7z2Zzonhbe2eyJrHXcJU2_3H9_Bp_H83ZwFxoHtNg
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW5pbGluZjEzMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvYXV0aC90b2tlbiIsImV4cCI6MTY4NTkwODY4OH0.zd6mw3dWo3Zcq96GSOifsp5jEe4-7FEEIQJ77InWqmg
 ###
 GET http://localhost:80/recipes/my
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW5pbGluZjEzMUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2F1dGgvdG9rZW4iLCJleHAiOjE2ODU3MzcyNTl9.iW7z2Zzonhbe2eyJrHXcJU2_3H9_Bp_H83ZwFxoHtNg
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW5pbGluZjEzMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvYXV0aC90b2tlbiIsImV4cCI6MTY4NTkwODY4OH0.zd6mw3dWo3Zcq96GSOifsp5jEe4-7FEEIQJ77InWqmg
+
 ###
 POST http://localhost:80/auth/token
 Content-Type: application/x-www-form-urlencoded
 
 email=danilinf131@gmail.com&password=1
+
+###
+POST http://localhost:80/auth/token
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW5pbGluZjEzMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvYXV0aC90b2tlbiIsImV4cCI6MTY4NTkwODI2OH0.pfwGNRq22pM15SSUYoG5JaQW1eapcVmcLat7E9xXeMc
+
+###
+POST http://localhost:80/signup
+Content-Type: application/json
+
+{
+"email": "danilinf131@gmail.com",
+"password": "1",
+"firstName": "danil",
+"lastName": "lin"
+}
 
 ###
 
