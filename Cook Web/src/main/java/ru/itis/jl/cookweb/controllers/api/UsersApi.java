@@ -44,5 +44,5 @@ public interface UsersApi {
             @ApiResponse(responseCode = "401", description = "Пользователь не авторизован")
     })
     @RequestMapping(value="/token/verify/{acceptedToken}/{email}", method= {RequestMethod.GET, RequestMethod.POST})
-    public ResponseEntity<?> verifyToken(@PathVariable String acceptedToken, @PathVariable String email);
+    ResponseEntity<?> verifyToken(@PathVariable String acceptedToken, @PathVariable String email);
 }

@@ -1,10 +1,8 @@
 package ru.itis.jl.cookweb.services.impl;
 
-import jakarta.persistence.EntityExistsException;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,7 +13,6 @@ import ru.itis.jl.cookweb.models.EmailToken;
 import ru.itis.jl.cookweb.models.User;
 import ru.itis.jl.cookweb.repositories.EmailTokenRepository;
 import ru.itis.jl.cookweb.repositories.UserRepository;
-import ru.itis.jl.cookweb.security.details.UserDetailsImpl;
 import ru.itis.jl.cookweb.services.UserService;
 import ru.itis.jl.cookweb.utils.ElasticEmailClient;
 
