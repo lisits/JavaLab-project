@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,7 +36,10 @@ public class TokenSecurityConfig {
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         httpSecurity.authorizeRequests()
-                .requestMatchers("/recipes/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/user").permitAll()
+                .requestMatchers(HttpMethod.DELETE, "/user").hasRole("ADMIN")
+                .requestMatchers("/profile/**").authenticated()
+                .requestMatchers("/recipes/**").authenticated()
                 .requestMatchers("/swagger-ui.html/**").permitAll();
 
         httpSecurity.addFilter(jwtAuthenticationFilter);
