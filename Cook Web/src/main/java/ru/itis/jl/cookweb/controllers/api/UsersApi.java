@@ -8,9 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import ru.itis.jl.cookweb.dto.NewUserDto;
 import ru.itis.jl.cookweb.models.User;
 
@@ -19,6 +17,7 @@ import java.security.Principal;
 @Tags(value = {
         @Tag(name = "User")
 })
+@RequestMapping("/user")
 public interface UsersApi {
 
     @Operation(summary = "Регистрация нового пользователя")
@@ -28,7 +27,7 @@ public interface UsersApi {
                             @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
                     })
     })
-    @PostMapping("/signup")
+    @PutMapping()
     ResponseEntity<User> registerUser(@RequestBody NewUserDto newUserDto);
 
     @Operation(summary = "Удалить аккаунт")
@@ -36,6 +35,6 @@ public interface UsersApi {
             @ApiResponse(responseCode = "200", description = "Ваш аккаунт успешно удален"),
             @ApiResponse(responseCode = "401", description = "Пользователь не авторизован")
     })
-    @DeleteMapping("/deleteAccount")
+    @DeleteMapping()
     ResponseEntity<?> deleteUser(Principal principal);
 }

@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.itis.jl.cookweb.dto.ExceptionDto;
 import ru.itis.jl.cookweb.dto.NewRecipeDto;
 import ru.itis.jl.cookweb.dto.RecipeDto;
 import ru.itis.jl.cookweb.dto.RecipePage;
@@ -24,7 +23,7 @@ import java.util.Set;
 @Tags(value = {
         @Tag(name = "Recipes")
 })
-
+@RequestMapping("/recipes")
 public interface RecipesApi {
 
     @Operation(summary = "Получение списка рецептов")
@@ -34,34 +33,11 @@ public interface RecipesApi {
                             @Content(mediaType = "application/json", schema = @Schema(implementation = RecipePage.class))
                     })
     })
-    @GetMapping("/recipes")
+    @GetMapping()
     ResponseEntity<RecipePage> getAllRecipes(
             @RequestParam("page") @Parameter(description = "Номер страницы") int page,
             @RequestParam(value = "sort", defaultValue = "asc") @Parameter(description = "Сортировать asc/desc") String sort
     );
-
-    @Operation(summary = "Добавление рецепта")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Добавленный рецепт",
-                    content = {
-                            @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = RecipeDto.class))
-                    }
-            )
-    })
-    @PostMapping("/recipe")
-    ResponseEntity<RecipeDto> addRecipe(Principal principal, @RequestBody NewRecipeDto newRecipeDto);
-
-    @Operation(summary = "Получение страницы рецептов по тегу")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Страница с существующими рецептами, содержащие тэг",
-                    content = {
-                            @Content(mediaType = "application/json", schema = @Schema(implementation = RecipePage.class))
-                    })
-    })
-    @GetMapping(value = "/recipes", params = {"tags","page"})
-    ResponseEntity<RecipePage> getRecipesByTag(@RequestParam("tags") @Parameter(description = "Рецепты с тегом") Set<ru.itis.jl.cookweb.models.Tag> tags,
-                                               @RequestParam("page")  @Parameter(description = "Номер страницы") int page);
 
     @Operation(summary = "Получение страницы рецпета по id")
     @ApiResponses(value = {
@@ -77,9 +53,31 @@ public interface RecipesApi {
             )
 
     })
-    @GetMapping(value = "/recipes/{id}")
+    @GetMapping("/{id}")
     ResponseEntity<RecipeDto> getRecipe(@PathVariable("id") Long id);
 
+    @Operation(summary = "Получение страницы рецептов по тегу")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Страница с существующими рецептами, содержащие тэг",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = RecipePage.class))
+                    })
+    })
+    @GetMapping(params = {"tags","page"})
+    ResponseEntity<RecipePage> getRecipesByTag(@RequestParam("tags") @Parameter(description = "Рецепты с тегом") Set<ru.itis.jl.cookweb.models.Tag> tags,
+                                               @RequestParam("page")  @Parameter(description = "Номер страницы") int page);
+
+    @Operation(summary = "Добавление рецепта")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Добавленный рецепт",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = RecipeDto.class))
+                    }
+            )
+    })
+    @PutMapping()
+    ResponseEntity<RecipeDto> addRecipe(Principal principal, @RequestBody NewRecipeDto newRecipeDto);
 
     @Operation(summary = "Получение страницы рецептов пользователя")
     @ApiResponses(value = {
@@ -95,7 +93,7 @@ public interface RecipesApi {
             )
 
     })
-    @GetMapping("/recipes/my")
+    @GetMapping("/my")
     ResponseEntity<RecipePage>  getRecipesByAuthor(Principal principal, @RequestParam(value = "page", defaultValue = "0") int page);
 
     @Operation(summary = "Добавление рецепта в избранное")
@@ -112,7 +110,7 @@ public interface RecipesApi {
             )
 
     })
-    @PostMapping("/addToFavorite")
+    @PostMapping("/favorite")
     ResponseEntity<RecipePage> addRecipeToFavourite(Principal principal, RecipeDto recipeDto, int page);
 
     @Operation(summary = "Поиск рецептов по ингредиентам")
@@ -128,7 +126,7 @@ public interface RecipesApi {
                     }
             )
     })
-    @GetMapping("/recipesByIngredients")
+    @GetMapping("/ingredients")
     ResponseEntity<RecipePage> getRecipesByIngredients(@RequestParam List<Ingredient> ingredients, int page);
 
     @Operation(summary = "Добавление ингредиента в рецепт")
@@ -144,7 +142,7 @@ public interface RecipesApi {
                     }
             )
     })
-    @PostMapping("/addIngredientToRecipe")
+    @PutMapping("/ingredients")
     ResponseEntity<RecipeDto> addIngredientToRecipe(RecipeDto recipeDto, Ingredient ingredient);
 }
 
