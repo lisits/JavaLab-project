@@ -39,12 +39,12 @@ public class UserServiceImpl implements UserService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User with this email address already exists");
 
         userRepository.save(User.builder()
-                        .email(newUserDto.getEmail())
-                        .firstName(newUserDto.getFirstName())
-                        .lastName(newUserDto.getLastName())
-                        .hashPassword(passwordEncoder.encode(newUserDto.getPassword()))
-                        .role(User.Role.USER)
-                        .state(User.State.NOT_CONFIRMED)
+                .email(newUserDto.getEmail())
+                .firstName(newUserDto.getFirstName())
+                .lastName(newUserDto.getLastName())
+                .hashPassword(passwordEncoder.encode(newUserDto.getPassword()))
+                .role(User.Role.USER)
+                .state(User.State.NOT_CONFIRMED)
                 .build());
 
         String newTokenString = UUID.randomUUID().toString();
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
                 .token(newTokenString)
                 .build());
         ElasticEmailClient elasticEmailClient = new ElasticEmailClient();
-        elasticEmailClient.send("ziperlin",apiKey,"danilsolovevinf@gmail.com","CookWeb",newTokenString,url+newTokenString+"/"+newUserDto.getEmail(),newUserDto.getEmail(),"true");
+        elasticEmailClient.send("ziperlin", apiKey, "danilsolovevinf@gmail.com", "CookWeb", newTokenString, url + newTokenString + "/" + newUserDto.getEmail(), newUserDto.getEmail(), "true");
     }
 
     @Override

@@ -17,9 +17,7 @@ import java.security.Principal;
 @Tags(value = {
         @Tag(name = "User")
 })
-@RequestMapping("/user")
 public interface UsersApi {
-
     @Operation(summary = "Регистрация нового пользователя")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Пользователь зарегистрирован",
@@ -27,7 +25,7 @@ public interface UsersApi {
                             @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
                     })
     })
-    @PutMapping()
+    @PutMapping("/user")
     ResponseEntity<User> registerUser(@RequestBody NewUserDto newUserDto);
 
     @Operation(summary = "Удалить аккаунт")
@@ -35,7 +33,7 @@ public interface UsersApi {
             @ApiResponse(responseCode = "200", description = "Ваш аккаунт успешно удален"),
             @ApiResponse(responseCode = "401", description = "Пользователь не авторизован")
     })
-    @DeleteMapping()
+    @DeleteMapping("/user")
     ResponseEntity<?> deleteUser(Principal principal);
 
     @Operation(summary = "Подтверждение аккаунта")
@@ -43,6 +41,6 @@ public interface UsersApi {
             @ApiResponse(responseCode = "404", description = "Неверный токен верификации"),
             @ApiResponse(responseCode = "401", description = "Пользователь не авторизован")
     })
-    @RequestMapping(value="/token/verify/{acceptedToken}/{email}", method= {RequestMethod.GET, RequestMethod.POST})
+    @GetMapping("/token/verify/{acceptedToken}/{email}")
     ResponseEntity<?> verifyToken(@PathVariable String acceptedToken, @PathVariable String email);
 }
