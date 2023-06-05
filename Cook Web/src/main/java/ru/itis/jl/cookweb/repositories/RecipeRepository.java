@@ -19,6 +19,6 @@ public interface RecipeRepository extends JpaRepository<Recipe,Long> {
     Page<Recipe> findAllByOrderByAddedInDesc(Pageable pageable);
     @Query("select r from Recipe r where r.authorId in (select u.id from User u where u.email = :email)")
     Page<Recipe> findAllByAuthorId_Email(@Param("email") String email, Pageable pageable);
-    @Query("SELECT r FROM Recipe r WHERE r.ingredients IN (SELECT i FROM Ingredient i WHERE i.id IN :ingredients)")
+    @Query("select r from Recipe r join r.ingredients ri where ri.id in :ingredients group by r.id having count(distinct ri.id) = :ingredientCount")
     Page<Recipe> findAllByIngredients(@Param("ingredients") List<Long> ingredients, Pageable pageable);
 }

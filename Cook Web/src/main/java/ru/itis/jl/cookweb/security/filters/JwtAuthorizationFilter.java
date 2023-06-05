@@ -16,9 +16,10 @@ import ru.itis.jl.cookweb.security.utils.JwtUtil;
 import java.io.IOException;
 
 import static ru.itis.jl.cookweb.security.filters.JwtAuthenticationFilter.AUTHENTICATION_URL;
+
 @Component
 @RequiredArgsConstructor
-public class JwtAuthorizationFilter extends OncePerRequestFilter{
+public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final AuthorizationHeaderUtil authorizationHeaderUtil;
 
@@ -26,23 +27,19 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter{
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().equals(AUTHENTICATION_URL)) {
+        if (request.getServletPath().equals(AUTHENTICATION_URL) ||
+                !authorizationHeaderUtil.hasAuthorizationToken(request)) {
             filterChain.doFilter(request, response);
         } else {
-            if (authorizationHeaderUtil.hasAuthorizationToken(request)) {
-                String jwt = authorizationHeaderUtil.getToken(request);
+            String jwt = authorizationHeaderUtil.getToken(request);
 
-                try {
-                    Authentication authentication = jwtUtil.buildAuthentication(jwt);
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                    filterChain.doFilter(request, response);
-                } catch (JWTVerificationException e) {
-                    logger.info(e.getMessage());
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                }
-
-            } else {
-                filterChain.doFilter(request,response);
+            try {
+                Authentication authentication = jwtUtil.buildAuthentication(jwt);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                filterChain.doFilter(request, response);
+            } catch (JWTVerificationException e) {
+                logger.info(e.getMessage());
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             }
         }
     }
