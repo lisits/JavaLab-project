@@ -17,7 +17,7 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JwtRevokeFilter extends OncePerRequestFilter {
-    private static final String REVOKE_TOKEN_URL = "/auth/token/revoke";
+    public static final String REVOKE_TOKEN_URL = "/auth/token/revoke";
 
     private final BlacklistRepository blacklistRepository;
     private final AuthorizationHeaderUtil authorizationHeaderUtil;
